@@ -172,11 +172,19 @@ class Position(T212BaseModel):
 
 # Orders
 
+class OrderInstrument(T212BaseModel):
+    ticker: Optional[str] = None
+    name: Optional[str] = None
+    isin: Optional[str] = None
+    currency: Optional[str] = None
+
+
 class Order(T212BaseModel):
     id: int
     ticker: str
     type: Optional[OrderType] = None
     status: Optional[OrderStatus] = None
+    side: Optional[str] = None
     quantity: Optional[float] = None
     filled_quantity: Optional[float] = None
     filled_value: Optional[float] = None
@@ -184,7 +192,12 @@ class Order(T212BaseModel):
     stop_price: Optional[float] = None
     strategy: Optional[OrderStrategy] = None
     value: Optional[float] = None
-    creation_time: Optional[datetime] = None
+    currency: Optional[str] = None
+    time_in_force: Optional[str] = None
+    extended_hours: Optional[bool] = None
+    initiated_from: Optional[str] = None
+    instrument: Optional[OrderInstrument] = None
+    created_at: Optional[datetime] = None
 
 
 class Tax(T212BaseModel):
