@@ -1,0 +1,815 @@
+{
+  "items": [
+    {
+      "order": {
+        "id": 0,
+        "strategy": "VALUE",
+        "type": "MARKET",
+        "ticker": "VWCEd_EQ",
+        "status": "FILLED",
+        "value": 0.0,
+        "filledValue": 0.0,
+        "currency": "EUR",
+        "extendedHours": 0,
+        "initiatedFrom": "INSTRUMENT_AUTOINVEST",
+        "side": "BUY",
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "instrument": {
+          "ticker": "VWCEd_EQ",
+          "name": "Vanguard FTSE All-World (Acc)",
+          "isin": "IE00BK5BQT80",
+          "currency": "EUR"
+        }
+      },
+      "fill": {
+        "id": 0,
+        "quantity": 0.0,
+        "price": 0.0,
+        "type": "TRADE",
+        "tradingMethod": "OTC",
+        "filledAt": "2026-08-07T07:05:07.000Z",
+        "walletImpact": {
+          "currency": "EUR",
+          "netValue": 0.0,
+          "fxRate": 0,
+          "taxes": []
+        }
+      }
+    },
+    {
+      "order": {
+        "id": 0,
+        "strategy": "VALUE",
+        "type": "MARKET",
+        "ticker": "IGLDd_EQ",
+        "status": "FILLED",
+        "value": 0.0,
+        "filledValue": 0.0,
+        "currency": "EUR",
+        "extendedHours": 0,
+        "initiatedFrom": "AUTOINVEST",
+        "side": "BUY",
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "instrument": {
+          "ticker": "IGLDd_EQ",
+          "name": "iShares Physical Gold EUR Hedged ETC",
+          "isin": "IE0009JOT9U1",
+          "currency": "EUR"
+        }
+      },
+      "fill": {
+        "id": 0,
+        "quantity": 0.0,
+        "price": 0.0,
+        "type": "TRADE",
+        "tradingMethod": "OTC",
+        "filledAt": "2026-08-03T07:05:08.000Z",
+        "walletImpact": {
+          "currency": "EUR",
+          "netValue": 0.0,
+          "fxRate": 0,
+          "taxes": []
+        }
+      }
+    },
+    {
+      "order": {
+        "id": 0,
+        "strategy": "VALUE",
+        "type": "MARKET",
+        "ticker": "GOOGL_US_EQ",
+        "status": "FILLED",
+        "value": 0.0,
+        "filledValue": 0.0,
+        "currency": "EUR",
+        "extendedHours": 0,
+        "initiatedFrom": "ANDROID",
+        "side": "BUY",
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "instrument": {
+          "ticker": "GOOGL_US_EQ",
+          "name": "Alphabet (Class A)",
+          "isin": "US02079K3059",
+          "currency": "USD"
+        }
+      },
+      "fill": {
+        "id": 0,
+        "quantity": 0.0,
+        "price": 0.0,
+        "type": "TRADE",
+        "tradingMethod": "OTC",
+        "filledAt": "2026-07-31T13:30:02.000Z",
+        "walletImpact": {
+          "currency": "EUR",
+          "netValue": 0.0,
+          "fxRate": 0.0,
+          "taxes": [
+            {
+              "name": "CURRENCY_CONVERSION_FEE",
+              "quantity": 0.0,
+              "currency": "EUR",
+              "chargedAt": "2026-01-01T00:00:00.000Z"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "order": {
+        "id": 0,
+        "strategy": "VALUE",
+        "type": "MARKET",
+        "ticker": "FB_US_EQ",
+        "status": "FILLED",
+        "value": 0.0,
+        "filledValue": 0.0,
+        "currency": "EUR",
+        "extendedHours": 0,
+        "initiatedFrom": "ANDROID",
+        "side": "BUY",
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "instrument": {
+          "ticker": "FB_US_EQ",
+          "name": "Meta Platforms",
+          "isin": "US30303M1027",
+          "currency": "USD"
+        }
+      },
+      "fill": {
+        "id": 0,
+        "quantity": 0.0,
+        "price": 0.0,
+        "type": "TRADE",
+        "tradingMethod": "OTC",
+        "filledAt": "2026-07-31T13:30:01.000Z",
+        "walletImpact": {
+          "currency": "EUR",
+          "netValue": 0.0,
+          "fxRate": 0.0,
+          "taxes": [
+            {
+              "name": "CURRENCY_CONVERSION_FEE",
+              "quantity": 0.0,
+              "currency": "EUR",
+              "chargedAt": "2026-01-01T00:00:00.000Z"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "order": {
+        "id": 0,
+        "strategy": "VALUE",
+        "type": "MARKET",
+        "ticker": "VWCEd_EQ",
+        "status": "FILLED",
+        "value": 0.0,
+        "filledValue": 0.0,
+        "currency": "EUR",
+        "extendedHours": 0,
+        "initiatedFrom": "INSTRUMENT_AUTOINVEST",
+        "side": "BUY",
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "instrument": {
+          "ticker": "VWCEd_EQ",
+          "name": "Vanguard FTSE All-World (Acc)",
+          "isin": "IE00BK5BQT80",
+          "currency": "EUR"
+        }
+      },
+      "fill": {
+        "id": 0,
+        "quantity": 0.0,
+        "price": 0.0,
+        "type": "TRADE",
+        "tradingMethod": "OTC",
+        "filledAt": "2026-07-24T07:04:59.000Z",
+        "walletImpact": {
+          "currency": "EUR",
+          "netValue": 0.0,
+          "fxRate": 0,
+          "taxes": []
+        }
+      }
+    },
+    {
+      "order": {
+        "id": 0,
+        "strategy": "VALUE",
+        "type": "MARKET",
+        "ticker": "YNDX_US_EQ",
+        "status": "FILLED",
+        "value": 0.0,
+        "filledValue": 0.0,
+        "currency": "EUR",
+        "extendedHours": 0,
+        "initiatedFrom": "ANDROID",
+        "side": "BUY",
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "instrument": {
+          "ticker": "YNDX_US_EQ",
+          "name": "Nebius Group",
+          "isin": "NL0009805522",
+          "currency": "USD"
+        }
+      },
+      "fill": {
+        "id": 0,
+        "quantity": 0.0,
+        "price": 0.0,
+        "type": "TRADE",
+        "tradingMethod": "OTC",
+        "filledAt": "2026-07-17T17:11:36.000Z",
+        "walletImpact": {
+          "currency": "EUR",
+          "netValue": 0.0,
+          "fxRate": 0.0,
+          "taxes": [
+            {
+              "name": "CURRENCY_CONVERSION_FEE",
+              "quantity": 0.0,
+              "currency": "EUR",
+              "chargedAt": "2026-01-01T00:00:00.000Z"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "order": {
+        "id": 0,
+        "strategy": "VALUE",
+        "type": "MARKET",
+        "ticker": "IGLDd_EQ",
+        "status": "FILLED",
+        "value": 0.0,
+        "filledValue": 0.0,
+        "currency": "EUR",
+        "extendedHours": 0,
+        "initiatedFrom": "AUTOINVEST",
+        "side": "BUY",
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "instrument": {
+          "ticker": "IGLDd_EQ",
+          "name": "iShares Physical Gold EUR Hedged ETC",
+          "isin": "IE0009JOT9U1",
+          "currency": "EUR"
+        }
+      },
+      "fill": {
+        "id": 0,
+        "quantity": 0.0,
+        "price": 0.0,
+        "type": "TRADE",
+        "tradingMethod": "OTC",
+        "filledAt": "2026-07-16T15:16:44.000Z",
+        "walletImpact": {
+          "currency": "EUR",
+          "netValue": 0.0,
+          "fxRate": 0,
+          "taxes": []
+        }
+      }
+    },
+    {
+      "order": {
+        "id": 0,
+        "strategy": "VALUE",
+        "type": "MARKET",
+        "ticker": "VWCEd_EQ",
+        "status": "FILLED",
+        "value": 0.0,
+        "filledValue": 0.0,
+        "currency": "EUR",
+        "extendedHours": 0,
+        "initiatedFrom": "INSTRUMENT_AUTOINVEST",
+        "side": "BUY",
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "instrument": {
+          "ticker": "VWCEd_EQ",
+          "name": "Vanguard FTSE All-World (Acc)",
+          "isin": "IE00BK5BQT80",
+          "currency": "EUR"
+        }
+      },
+      "fill": {
+        "id": 0,
+        "quantity": 0.0,
+        "price": 0.0,
+        "type": "TRADE",
+        "tradingMethod": "OTC",
+        "filledAt": "2026-07-10T07:04:55.000Z",
+        "walletImpact": {
+          "currency": "EUR",
+          "netValue": 0.0,
+          "fxRate": 0,
+          "taxes": []
+        }
+      }
+    },
+    {
+      "order": {
+        "id": 0,
+        "strategy": "QUANTITY",
+        "type": "MARKET",
+        "ticker": "FN_US_EQ",
+        "quantity": 0.0,
+        "filledQuantity": 0.0,
+        "status": "FILLED",
+        "currency": "EUR",
+        "extendedHours": 0,
+        "initiatedFrom": "AUTOINVEST",
+        "side": "SELL",
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "instrument": {
+          "ticker": "FN_US_EQ",
+          "name": "Fabrinet",
+          "isin": "KYG3323L1005",
+          "currency": "USD"
+        }
+      },
+      "fill": {
+        "id": 0,
+        "quantity": 0.0,
+        "price": 0.0,
+        "type": "TRADE",
+        "tradingMethod": "OTC",
+        "filledAt": "2026-07-02T16:27:05.000Z",
+        "walletImpact": {
+          "currency": "EUR",
+          "netValue": 0.0,
+          "realisedProfitLoss": 0.0,
+          "fxRate": 0.0,
+          "taxes": [
+            {
+              "name": "CURRENCY_CONVERSION_FEE",
+              "quantity": 0.0,
+              "currency": "EUR",
+              "chargedAt": "2026-01-01T00:00:00.000Z"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "order": {
+        "id": 0,
+        "strategy": "QUANTITY",
+        "type": "MARKET",
+        "ticker": "MU_US_EQ",
+        "quantity": 0.0,
+        "filledQuantity": 0.0,
+        "status": "FILLED",
+        "currency": "EUR",
+        "extendedHours": 0,
+        "initiatedFrom": "AUTOINVEST",
+        "side": "SELL",
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "instrument": {
+          "ticker": "MU_US_EQ",
+          "name": "Micron Technology",
+          "isin": "US5951121038",
+          "currency": "USD"
+        }
+      },
+      "fill": {
+        "id": 0,
+        "quantity": 0.0,
+        "price": 0.0,
+        "type": "TRADE",
+        "tradingMethod": "OTC",
+        "filledAt": "2026-07-02T16:27:03.000Z",
+        "walletImpact": {
+          "currency": "EUR",
+          "netValue": 0.0,
+          "realisedProfitLoss": 0.0,
+          "fxRate": 0.0,
+          "taxes": [
+            {
+              "name": "CURRENCY_CONVERSION_FEE",
+              "quantity": 0.0,
+              "currency": "EUR",
+              "chargedAt": "2026-01-01T00:00:00.000Z"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "order": {
+        "id": 0,
+        "strategy": "VALUE",
+        "type": "MARKET",
+        "ticker": "YNDX_US_EQ",
+        "status": "FILLED",
+        "value": 0.0,
+        "filledValue": 0.0,
+        "currency": "EUR",
+        "extendedHours": 0,
+        "initiatedFrom": "AUTOINVEST",
+        "side": "SELL",
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "instrument": {
+          "ticker": "YNDX_US_EQ",
+          "name": "Nebius Group",
+          "isin": "NL0009805522",
+          "currency": "USD"
+        }
+      },
+      "fill": {
+        "id": 0,
+        "quantity": 0.0,
+        "price": 0.0,
+        "type": "TRADE",
+        "tradingMethod": "OTC",
+        "filledAt": "2026-07-02T16:27:03.000Z",
+        "walletImpact": {
+          "currency": "EUR",
+          "netValue": 0.0,
+          "realisedProfitLoss": 0.0,
+          "fxRate": 0.0,
+          "taxes": [
+            {
+              "name": "CURRENCY_CONVERSION_FEE",
+              "quantity": 0.0,
+              "currency": "EUR",
+              "chargedAt": "2026-01-01T00:00:00.000Z"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "order": {
+        "id": 0,
+        "strategy": "VALUE",
+        "type": "MARKET",
+        "ticker": "MRVL_US_EQ",
+        "status": "FILLED",
+        "value": 0.0,
+        "filledValue": 0.0,
+        "currency": "EUR",
+        "extendedHours": 0,
+        "initiatedFrom": "AUTOINVEST",
+        "side": "SELL",
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "instrument": {
+          "ticker": "MRVL_US_EQ",
+          "name": "Marvell Technology",
+          "isin": "US5738741041",
+          "currency": "USD"
+        }
+      },
+      "fill": {
+        "id": 0,
+        "quantity": 0.0,
+        "price": 0.0,
+        "type": "TRADE",
+        "tradingMethod": "OTC",
+        "filledAt": "2026-07-02T16:27:02.000Z",
+        "walletImpact": {
+          "currency": "EUR",
+          "netValue": 0.0,
+          "realisedProfitLoss": 0.0,
+          "fxRate": 0.0,
+          "taxes": [
+            {
+              "name": "CURRENCY_CONVERSION_FEE",
+              "quantity": 0.0,
+              "currency": "EUR",
+              "chargedAt": "2026-01-01T00:00:00.000Z"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "order": {
+        "id": 0,
+        "strategy": "QUANTITY",
+        "type": "MARKET",
+        "ticker": "TSEM_US_EQ",
+        "quantity": 0.0,
+        "filledQuantity": 0.0,
+        "status": "FILLED",
+        "currency": "EUR",
+        "extendedHours": 0,
+        "initiatedFrom": "AUTOINVEST",
+        "side": "SELL",
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "instrument": {
+          "ticker": "TSEM_US_EQ",
+          "name": "Tower Semiconductor",
+          "isin": "IL0010823792",
+          "currency": "USD"
+        }
+      },
+      "fill": {
+        "id": 0,
+        "quantity": 0.0,
+        "price": 0.0,
+        "type": "TRADE",
+        "tradingMethod": "OTC",
+        "filledAt": "2026-07-02T16:27:02.000Z",
+        "walletImpact": {
+          "currency": "EUR",
+          "netValue": 0.0,
+          "realisedProfitLoss": 0.0,
+          "fxRate": 0.0,
+          "taxes": [
+            {
+              "name": "CURRENCY_CONVERSION_FEE",
+              "quantity": 0.0,
+              "currency": "EUR",
+              "chargedAt": "2026-01-01T00:00:00.000Z"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "order": {
+        "id": 0,
+        "strategy": "VALUE",
+        "type": "MARKET",
+        "ticker": "AMD_US_EQ",
+        "status": "FILLED",
+        "value": 0.0,
+        "filledValue": 0.0,
+        "currency": "EUR",
+        "extendedHours": 0,
+        "initiatedFrom": "AUTOINVEST",
+        "side": "SELL",
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "instrument": {
+          "ticker": "AMD_US_EQ",
+          "name": "Advanced Micro Devices",
+          "isin": "US0079031078",
+          "currency": "USD"
+        }
+      },
+      "fill": {
+        "id": 0,
+        "quantity": 0.0,
+        "price": 0.0,
+        "type": "TRADE",
+        "tradingMethod": "OTC",
+        "filledAt": "2026-07-02T16:27:02.000Z",
+        "walletImpact": {
+          "currency": "EUR",
+          "netValue": 0.0,
+          "realisedProfitLoss": 0.0,
+          "fxRate": 0.0,
+          "taxes": [
+            {
+              "name": "CURRENCY_CONVERSION_FEE",
+              "quantity": 0.0,
+              "currency": "EUR",
+              "chargedAt": "2026-01-01T00:00:00.000Z"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "order": {
+        "id": 0,
+        "strategy": "VALUE",
+        "type": "MARKET",
+        "ticker": "IGLDd_EQ",
+        "status": "FILLED",
+        "value": 0.0,
+        "filledValue": 0.0,
+        "currency": "EUR",
+        "extendedHours": 0,
+        "initiatedFrom": "AUTOINVEST",
+        "side": "BUY",
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "instrument": {
+          "ticker": "IGLDd_EQ",
+          "name": "iShares Physical Gold EUR Hedged ETC",
+          "isin": "IE0009JOT9U1",
+          "currency": "EUR"
+        }
+      },
+      "fill": {
+        "id": 0,
+        "quantity": 0.0,
+        "price": 0.0,
+        "type": "TRADE",
+        "tradingMethod": "OTC",
+        "filledAt": "2026-07-02T07:05:07.000Z",
+        "walletImpact": {
+          "currency": "EUR",
+          "netValue": 0.0,
+          "fxRate": 0,
+          "taxes": []
+        }
+      }
+    },
+    {
+      "order": {
+        "id": 0,
+        "strategy": "VALUE",
+        "type": "MARKET",
+        "ticker": "HY9Hd_EQ",
+        "status": "FILLED",
+        "value": 0.0,
+        "filledValue": 0.0,
+        "currency": "EUR",
+        "extendedHours": 0,
+        "initiatedFrom": "AUTOINVEST",
+        "side": "BUY",
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "instrument": {
+          "ticker": "HY9Hd_EQ",
+          "name": "SK hynix",
+          "isin": "US78392B1070",
+          "currency": "EUR"
+        }
+      },
+      "fill": {
+        "id": 0,
+        "quantity": 0.0,
+        "price": 0.0,
+        "type": "TRADE",
+        "tradingMethod": "OTC",
+        "filledAt": "2026-06-26T15:43:49.000Z",
+        "walletImpact": {
+          "currency": "EUR",
+          "netValue": 0.0,
+          "fxRate": 0,
+          "taxes": []
+        }
+      }
+    },
+    {
+      "order": {
+        "id": 0,
+        "strategy": "VALUE",
+        "type": "MARKET",
+        "ticker": "DMYI_US_EQ",
+        "status": "FILLED",
+        "value": 0.0,
+        "filledValue": 0.0,
+        "currency": "EUR",
+        "extendedHours": 0,
+        "initiatedFrom": "AUTOINVEST",
+        "side": "BUY",
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "instrument": {
+          "ticker": "DMYI_US_EQ",
+          "name": "IonQ",
+          "isin": "US46222L1089",
+          "currency": "USD"
+        }
+      },
+      "fill": {
+        "id": 0,
+        "quantity": 0.0,
+        "price": 0.0,
+        "type": "TRADE",
+        "tradingMethod": "OTC",
+        "filledAt": "2026-06-26T15:41:38.000Z",
+        "walletImpact": {
+          "currency": "EUR",
+          "netValue": 0.0,
+          "fxRate": 0.0,
+          "taxes": [
+            {
+              "name": "CURRENCY_CONVERSION_FEE",
+              "quantity": 0.0,
+              "currency": "EUR",
+              "chargedAt": "2026-01-01T00:00:00.000Z"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "order": {
+        "id": 0,
+        "strategy": "VALUE",
+        "type": "MARKET",
+        "ticker": "MRVL_US_EQ",
+        "status": "FILLED",
+        "value": 0.0,
+        "filledValue": 0.0,
+        "currency": "EUR",
+        "extendedHours": 0,
+        "initiatedFrom": "AUTOINVEST",
+        "side": "BUY",
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "instrument": {
+          "ticker": "MRVL_US_EQ",
+          "name": "Marvell Technology",
+          "isin": "US5738741041",
+          "currency": "USD"
+        }
+      },
+      "fill": {
+        "id": 0,
+        "quantity": 0.0,
+        "price": 0.0,
+        "type": "TRADE",
+        "tradingMethod": "OTC",
+        "filledAt": "2026-06-26T15:41:38.000Z",
+        "walletImpact": {
+          "currency": "EUR",
+          "netValue": 0.0,
+          "fxRate": 0.0,
+          "taxes": [
+            {
+              "name": "CURRENCY_CONVERSION_FEE",
+              "quantity": 0.0,
+              "currency": "EUR",
+              "chargedAt": "2026-01-01T00:00:00.000Z"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "order": {
+        "id": 0,
+        "strategy": "VALUE",
+        "type": "MARKET",
+        "ticker": "MSFT_US_EQ",
+        "status": "FILLED",
+        "value": 0.0,
+        "filledValue": 0.0,
+        "currency": "EUR",
+        "extendedHours": 0,
+        "initiatedFrom": "AUTOINVEST",
+        "side": "BUY",
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "instrument": {
+          "ticker": "MSFT_US_EQ",
+          "name": "Microsoft",
+          "isin": "US5949181045",
+          "currency": "USD"
+        }
+      },
+      "fill": {
+        "id": 0,
+        "quantity": 0.0,
+        "price": 0.0,
+        "type": "TRADE",
+        "tradingMethod": "OTC",
+        "filledAt": "2026-06-26T15:41:38.000Z",
+        "walletImpact": {
+          "currency": "EUR",
+          "netValue": 0.0,
+          "fxRate": 0.0,
+          "taxes": [
+            {
+              "name": "CURRENCY_CONVERSION_FEE",
+              "quantity": 0.0,
+              "currency": "EUR",
+              "chargedAt": "2026-01-01T00:00:00.000Z"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "order": {
+        "id": 0,
+        "strategy": "VALUE",
+        "type": "MARKET",
+        "ticker": "VWCEd_EQ",
+        "status": "FILLED",
+        "value": 0.0,
+        "filledValue": 0.0,
+        "currency": "EUR",
+        "extendedHours": 0,
+        "initiatedFrom": "INSTRUMENT_AUTOINVEST",
+        "side": "BUY",
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "instrument": {
+          "ticker": "VWCEd_EQ",
+          "name": "Vanguard FTSE All-World (Acc)",
+          "isin": "IE00BK5BQT80",
+          "currency": "EUR"
+        }
+      },
+      "fill": {
+        "id": 0,
+        "quantity": 0.0,
+        "price": 0.0,
+        "type": "TRADE",
+        "tradingMethod": "OTC",
+        "filledAt": "2026-06-26T07:04:51.000Z",
+        "walletImpact": {
+          "currency": "EUR",
+          "netValue": 0.0,
+          "fxRate": 0,
+          "taxes": []
+        }
+      }
+    }
+  ],
+  "nextPagePath": "/api/v0/equity/history/orders?cursor=1782457491290&limit=20"
+}

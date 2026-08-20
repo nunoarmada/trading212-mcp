@@ -1,0 +1,87 @@
+[
+  {
+    "id": 0,
+    "cash": 0,
+    "dividendDetails": {
+      "gained": 0,
+      "reinvested": 0,
+      "inCash": 0
+    },
+    "result": {
+      "priceAvgInvestedValue": 0.0,
+      "priceAvgValue": 0.0,
+      "priceAvgResult": 0.0,
+      "priceAvgResultCoef": 0.0
+    },
+    "progress": null,
+    "status": null
+  },
+  {
+    "id": 0,
+    "cash": 0.0,
+    "dividendDetails": {
+      "gained": 0,
+      "reinvested": 0,
+      "inCash": 0
+    },
+    "result": {
+      "priceAvgInvestedValue": 0.0,
+      "priceAvgValue": 0.0,
+      "priceAvgResult": 0.0,
+      "priceAvgResultCoef": 0.0
+    },
+    "progress": null,
+    "status": null
+  },
+  {
+    "id": 0,
+    "cash": 0.0,
+    "dividendDetails": {
+      "gained": 0.0,
+      "reinvested": 0.0,
+      "inCash": 0.0
+    },
+    "result": {
+      "priceAvgInvestedValue": 0.0,
+      "priceAvgValue": 0.0,
+      "priceAvgResult": 0.0,
+      "priceAvgResultCoef": 0.0
+    },
+    "progress": 0.0,
+    "status": null
+  },
+  {
+    "id": 0,
+    "cash": 0,
+    "dividendDetails": {
+      "gained": 0,
+      "reinvested": 0,
+      "inCash": 0
+    },
+    "result": {
+      "priceAvgInvestedValue": 0.0,
+      "priceAvgValue": 0.0,
+      "priceAvgResult": 0.0,
+      "priceAvgResultCoef": 0.0
+    },
+    "progress": 0.0,
+    "status": "AHEAD"
+  },
+  {
+    "id": 0,
+    "cash": 0.0,
+    "dividendDetails": {
+      "gained": 0.0,
+      "reinvested": 0,
+      "inCash": 0.0
+    },
+    "result": {
+      "priceAvgInvestedValue": 0.0,
+      "priceAvgValue": 0.0,
+      "priceAvgResult": 0.0,
+      "priceAvgResultCoef": 0.0
+    },
+    "progress": null,
+    "status": null
+  }
+]

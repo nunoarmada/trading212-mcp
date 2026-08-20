@@ -1,0 +1,90 @@
+[
+  {
+    "id": 0,
+    "strategy": "QUANTITY",
+    "type": "LIMIT",
+    "ticker": "YNDX_US_EQ",
+    "quantity": 0.0,
+    "filledQuantity": 0,
+    "limitPrice": 0.0,
+    "status": "NEW",
+    "currency": "EUR",
+    "extendedHours": 0,
+    "initiatedFrom": "ANDROID",
+    "side": "BUY",
+    "timeInForce": "2026-01-01T00:00:00.000Z",
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "instrument": {
+      "ticker": "YNDX_US_EQ",
+      "name": "Nebius Group",
+      "isin": "NL0009805522",
+      "currency": "USD"
+    }
+  },
+  {
+    "id": 0,
+    "strategy": "QUANTITY",
+    "type": "LIMIT",
+    "ticker": "AAPL_US_EQ",
+    "quantity": 0.0,
+    "filledQuantity": 0,
+    "limitPrice": 0.0,
+    "status": "NEW",
+    "currency": "EUR",
+    "extendedHours": 0,
+    "initiatedFrom": "ANDROID",
+    "side": "BUY",
+    "timeInForce": "2026-01-01T00:00:00.000Z",
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "instrument": {
+      "ticker": "AAPL_US_EQ",
+      "name": "Apple",
+      "isin": "US0378331005",
+      "currency": "USD"
+    }
+  },
+  {
+    "id": 0,
+    "strategy": "QUANTITY",
+    "type": "LIMIT",
+    "ticker": "NVDA_US_EQ",
+    "quantity": 0.0,
+    "filledQuantity": 0,
+    "limitPrice": 0.0,
+    "status": "NEW",
+    "currency": "EUR",
+    "extendedHours": 0,
+    "initiatedFrom": "ANDROID",
+    "side": "BUY",
+    "timeInForce": "2026-01-01T00:00:00.000Z",
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "instrument": {
+      "ticker": "NVDA_US_EQ",
+      "name": "Nvidia",
+      "isin": "US67066G1040",
+      "currency": "USD"
+    }
+  },
+  {
+    "id": 0,
+    "strategy": "QUANTITY",
+    "type": "LIMIT",
+    "ticker": "AMZN_US_EQ",
+    "quantity": 0.0,
+    "filledQuantity": 0,
+    "limitPrice": 0.0,
+    "status": "NEW",
+    "currency": "EUR",
+    "extendedHours": 0,
+    "initiatedFrom": "ANDROID",
+    "side": "BUY",
+    "timeInForce": "2026-01-01T00:00:00.000Z",
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "instrument": {
+      "ticker": "AMZN_US_EQ",
+      "name": "Amazon",
+      "isin": "US0231351067",
+      "currency": "USD"
+    }
+  }
+]

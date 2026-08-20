@@ -1,0 +1,145 @@
+{
+  "items": [
+    {
+      "type": "INTEREST_ON_FREE_CASH",
+      "amount": 0.0,
+      "currency": "EUR",
+      "reference": "019ff8ac-379e-705f-8341-6cb5c8cdedc2",
+      "dateTime": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "type": "INTEREST_ON_FREE_CASH",
+      "amount": 0.0,
+      "currency": "EUR",
+      "reference": "019ff386-c2e1-7577-88c1-e741fa403c8a",
+      "dateTime": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "type": "INTEREST_ON_FREE_CASH",
+      "amount": 0.0,
+      "currency": "EUR",
+      "reference": "019fee61-17eb-79f8-bc45-13c36d3bd59c",
+      "dateTime": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "type": "INTEREST_ON_FREE_CASH",
+      "amount": 0.0,
+      "currency": "EUR",
+      "reference": "019fe939-1383-7026-896b-4fd8c6225037",
+      "dateTime": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "type": "INTEREST_ON_FREE_CASH",
+      "amount": 0.0,
+      "currency": "EUR",
+      "reference": "019fe413-a16d-7c50-9a76-0135d04e5b6d",
+      "dateTime": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "type": "INTEREST_ON_FREE_CASH",
+      "amount": 0.0,
+      "currency": "EUR",
+      "reference": "019fdeed-695d-7eaf-994b-970bedb7d302",
+      "dateTime": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "type": "INTEREST_ON_FREE_CASH",
+      "amount": 0.0,
+      "currency": "EUR",
+      "reference": "019fd9c6-907d-71fb-88b0-72ef7b382fa5",
+      "dateTime": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "type": "INTEREST_ON_FREE_CASH",
+      "amount": 0.0,
+      "currency": "EUR",
+      "reference": "019fd4a1-da56-7c9f-8e73-bc5bad783756",
+      "dateTime": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "type": "INTEREST_ON_FREE_CASH",
+      "amount": 0.0,
+      "currency": "EUR",
+      "reference": "019fcf79-e62a-7e71-9ebd-98df31493c81",
+      "dateTime": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "type": "INTEREST_ON_FREE_CASH",
+      "amount": 0.0,
+      "currency": "EUR",
+      "reference": "019fca52-cbea-78dd-9b36-a51c35314da6",
+      "dateTime": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "type": "INTEREST_ON_FREE_CASH",
+      "amount": 0.0,
+      "currency": "EUR",
+      "reference": "019fc52e-4aa6-7789-a034-5d47a085d07b",
+      "dateTime": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "type": "INTEREST_ON_FREE_CASH",
+      "amount": 0.0,
+      "currency": "EUR",
+      "reference": "019fc008-03d3-7a20-906b-3cb1e344812f",
+      "dateTime": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "type": "INTEREST_ON_FREE_CASH",
+      "amount": 0.0,
+      "currency": "EUR",
+      "reference": "019fbae1-8f6e-7f65-a855-77297cfbbf04",
+      "dateTime": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "type": "DEPOSIT",
+      "amount": 0.0,
+      "currency": "EUR",
+      "reference": "019fb73d-b153-70b9-8cb9-bdd2334d32a6",
+      "dateTime": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "type": "INTEREST_ON_FREE_CASH",
+      "amount": 0.0,
+      "currency": "EUR",
+      "reference": "019fb5bb-efab-7525-996f-db41a8093521",
+      "dateTime": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "type": "INTEREST_ON_FREE_CASH",
+      "amount": 0.0,
+      "currency": "EUR",
+      "reference": "019fb095-d50a-7fd4-8be9-4c9fbb6606b9",
+      "dateTime": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "type": "DEPOSIT",
+      "amount": 0.0,
+      "currency": "EUR",
+      "reference": "019faf85-5ad2-7d09-8e6a-05f537f3a24d",
+      "dateTime": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "type": "INTEREST_ON_FREE_CASH",
+      "amount": 0.0,
+      "currency": "EUR",
+      "reference": "019fab6f-9c5a-75af-8463-d543a2069422",
+      "dateTime": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "type": "INTEREST_ON_FREE_CASH",
+      "amount": 0.0,
+      "currency": "EUR",
+      "reference": "019fa647-a8b7-7a78-9c77-0468a1fb5e39",
+      "dateTime": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "type": "INTEREST_ON_FREE_CASH",
+      "amount": 0.0,
+      "currency": "EUR",
+      "reference": "019fa125-9cc8-7995-851b-e6e0d0dde8b3",
+      "dateTime": "2026-01-01T00:00:00.000Z"
+    }
+  ],
+  "nextPagePath": "limit=20&cursor=019f9bfe-d25a-7c42-9fd3-4157bce39164&time=2026-07-26T01:16:36.304Z"
+}

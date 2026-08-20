@@ -1,0 +1,124 @@
+{
+  "items": [
+    {
+      "ticker": "MRVL_US_EQ",
+      "instrument": {
+        "ticker": "MRVL_US_EQ",
+        "name": "Marvell Technology",
+        "isin": "US5738741041",
+        "currency": "USD"
+      },
+      "reference": "cb65e794-158b-4857-b987-769d8eb61d8a",
+      "quantity": 0.0,
+      "amount": 0.0,
+      "currency": "EUR",
+      "grossAmountPerShare": 0.0,
+      "amountInEuro": 0.0,
+      "paidOn": "2026-01-01T00:00:00.000Z",
+      "type": "DIVIDEND"
+    },
+    {
+      "ticker": "VST_US_EQ",
+      "instrument": {
+        "ticker": "VST_US_EQ",
+        "name": "Vistra",
+        "isin": "US92840M1027",
+        "currency": "USD"
+      },
+      "reference": "080ccca5-d0c7-484f-819a-77707db2435f",
+      "quantity": 0.0,
+      "amount": 0.0,
+      "currency": "EUR",
+      "grossAmountPerShare": 0.0,
+      "amountInEuro": 0.0,
+      "paidOn": "2026-01-01T00:00:00.000Z",
+      "type": "DIVIDEND"
+    },
+    {
+      "ticker": "NVDA_US_EQ",
+      "instrument": {
+        "ticker": "NVDA_US_EQ",
+        "name": "Nvidia",
+        "isin": "US67066G1040",
+        "currency": "USD"
+      },
+      "reference": "4f63666d-0a98-4417-bbbc-d9811db2214e",
+      "quantity": 0.0,
+      "amount": 0.0,
+      "currency": "EUR",
+      "grossAmountPerShare": 0.0,
+      "amountInEuro": 0.0,
+      "paidOn": "2026-01-01T00:00:00.000Z",
+      "type": "DIVIDEND"
+    },
+    {
+      "ticker": "GOOGL_US_EQ",
+      "instrument": {
+        "ticker": "GOOGL_US_EQ",
+        "name": "Alphabet (Class A)",
+        "isin": "US02079K3059",
+        "currency": "USD"
+      },
+      "reference": "2affb00e-d851-4211-8768-807e517256a6",
+      "quantity": 0.0,
+      "amount": 0.0,
+      "currency": "EUR",
+      "grossAmountPerShare": 0.0,
+      "amountInEuro": 0.0,
+      "paidOn": "2026-01-01T00:00:00.000Z",
+      "type": "DIVIDEND"
+    },
+    {
+      "ticker": "MSFT_US_EQ",
+      "instrument": {
+        "ticker": "MSFT_US_EQ",
+        "name": "Microsoft",
+        "isin": "US5949181045",
+        "currency": "USD"
+      },
+      "reference": "7ea46cba-c44f-4c52-8d94-2429085b3ade",
+      "quantity": 0.0,
+      "amount": 0.0,
+      "currency": "EUR",
+      "grossAmountPerShare": 0.0,
+      "amountInEuro": 0.0,
+      "paidOn": "2026-01-01T00:00:00.000Z",
+      "type": "DIVIDEND"
+    },
+    {
+      "ticker": "CEG_US_EQ",
+      "instrument": {
+        "ticker": "CEG_US_EQ",
+        "name": "Constellation Energy",
+        "isin": "US21037T1097",
+        "currency": "USD"
+      },
+      "reference": "d10eea84-0b1e-46ae-838b-360254483768",
+      "quantity": 0.0,
+      "amount": 0.0,
+      "currency": "EUR",
+      "grossAmountPerShare": 0.0,
+      "amountInEuro": 0.0,
+      "paidOn": "2026-01-01T00:00:00.000Z",
+      "type": "DIVIDEND"
+    },
+    {
+      "ticker": "MRVL_US_EQ",
+      "instrument": {
+        "ticker": "MRVL_US_EQ",
+        "name": "Marvell Technology",
+        "isin": "US5738741041",
+        "currency": "USD"
+      },
+      "reference": "fb56129e-7822-4324-9b6e-842c8da29371",
+      "quantity": 0.0,
+      "amount": 0.0,
+      "currency": "EUR",
+      "grossAmountPerShare": 0.0,
+      "amountInEuro": 0.0,
+      "paidOn": "2026-01-01T00:00:00.000Z",
+      "type": "DIVIDEND"
+    }
+  ],
+  "nextPagePath": null
+}

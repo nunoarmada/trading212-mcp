@@ -118,13 +118,13 @@ def fetch_portfolio_performance() -> dict:
     filled = [
         {
             "ticker": o.ticker,
-            "type": o.type.value if o.type else None,
+            "type": o.type,
             "quantity": o.filled_quantity,
             "fill_price": o.fill_price,
             "date": o.date_executed.isoformat() if o.date_executed else None,
-            "status": o.status.value if o.status else None,
+            "status": o.status,
         }
-        for o in orders if o.status and o.status.value == "FILLED"
+        for o in orders if o.status == "FILLED"
     ][:20]
 
     result = {
@@ -245,8 +245,8 @@ def fetch_recent_activity(limit: int = 20) -> dict:
                 o.date_created.isoformat() if o.date_created else None
             ),
             "ticker": o.ticker,
-            "order_type": o.type.value if o.type else None,
-            "status": o.status.value if o.status else None,
+            "order_type": o.type,
+            "status": o.status,
             "quantity": o.filled_quantity or o.ordered_quantity,
             "fill_price": o.fill_price,
             "value": o.filled_value or o.ordered_value,
@@ -256,7 +256,7 @@ def fetch_recent_activity(limit: int = 20) -> dict:
         activity.append({
             "type": "transaction",
             "date": t.date_time.isoformat() if t.date_time else None,
-            "transaction_type": t.type.value if t.type else None,
+            "transaction_type": t.type,
             "amount": t.amount,
             "reference": t.reference,
         })

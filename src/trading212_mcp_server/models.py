@@ -45,15 +45,6 @@ class TimeValidity(str, Enum):
     GOOD_TILL_CANCEL = "GOOD_TILL_CANCEL"
 
 
-class Executor(str, Enum):
-    API = "API"
-    WEB = "WEB"
-    IOS = "IOS"
-    ANDROID = "ANDROID"
-    SYSTEM = "SYSTEM"
-    AUTOINVEST = "AUTOINVEST"
-
-
 class FillType(str, Enum):
     TRADE = "TRADE"
     TOTV = "TOTV"
@@ -182,15 +173,15 @@ class OrderInstrument(T212BaseModel):
 class Order(T212BaseModel):
     id: int
     ticker: str
-    type: Optional[OrderType] = None
-    status: Optional[OrderStatus] = None
+    type: Optional[str] = None
+    status: Optional[str] = None
     side: Optional[str] = None
     quantity: Optional[float] = None
     filled_quantity: Optional[float] = None
     filled_value: Optional[float] = None
     limit_price: Optional[float] = None
     stop_price: Optional[float] = None
-    strategy: Optional[OrderStrategy] = None
+    strategy: Optional[str] = None
     value: Optional[float] = None
     currency: Optional[str] = None
     time_in_force: Optional[str] = None
@@ -201,7 +192,7 @@ class Order(T212BaseModel):
 
 
 class Tax(T212BaseModel):
-    name: Optional[TaxName] = None
+    name: Optional[str] = None
     quantity: Optional[float] = None
     fill_id: Optional[str] = None
     time_charged: Optional[datetime] = None
@@ -210,22 +201,22 @@ class Tax(T212BaseModel):
 class HistoricalOrder(T212BaseModel):
     id: int
     ticker: str
-    type: Optional[OrderType] = None
-    status: Optional[OrderStatus] = None
+    type: Optional[str] = None
+    status: Optional[str] = None
     executor: Optional[str] = None
     filled_quantity: Optional[float] = None
     filled_value: Optional[float] = None
     fill_price: Optional[float] = None
     fill_cost: Optional[float] = None
     fill_result: Optional[float] = None
-    fill_type: Optional[FillType] = None
+    fill_type: Optional[str] = None
     fill_id: Optional[int] = None
     limit_price: Optional[float] = None
     stop_price: Optional[float] = None
     ordered_quantity: Optional[float] = None
     ordered_value: Optional[float] = None
     parent_order: Optional[int] = None
-    time_validity: Optional[TimeValidity] = None
+    time_validity: Optional[str] = None
     taxes: Optional[list[Tax]] = None
     date_created: Optional[datetime] = None
     date_executed: Optional[datetime] = None
@@ -247,7 +238,7 @@ class DividendItem(T212BaseModel):
 
 class TransactionItem(T212BaseModel):
     amount: float
-    type: TransactionType
+    type: str
     date_time: Optional[datetime] = None
     reference: Optional[str] = None
 
@@ -272,8 +263,8 @@ class InvestmentResult(T212BaseModel):
 
 
 class InstrumentIssue(T212BaseModel):
-    name: IssueType
-    severity: IssueSeverity
+    name: str
+    severity: str
 
 
 class PieInstrument(T212BaseModel):
@@ -296,7 +287,7 @@ class PieSettings(T212BaseModel):
     name: Optional[str] = None
     icon: Optional[str] = None
     goal: Optional[float] = None
-    dividend_cash_action: Optional[DividendCashAction] = None
+    dividend_cash_action: Optional[str] = None
     instrument_shares: Optional[dict[str, float]] = None
     creation_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
@@ -311,7 +302,7 @@ class PieDetails(T212BaseModel):
 
 class PieSummary(T212BaseModel):
     id: int
-    status: Optional[PieStatus] = None
+    status: Optional[str] = None
     cash: Optional[float] = None
     progress: Optional[float] = None
     result: Optional[InvestmentResult] = None
@@ -322,7 +313,7 @@ class PieSummary(T212BaseModel):
 
 class ScheduleEvent(T212BaseModel):
     date: datetime
-    type: ScheduleEventType
+    type: str
 
 
 class WorkingSchedule(T212BaseModel):
@@ -339,7 +330,7 @@ class Exchange(T212BaseModel):
 class Instrument(T212BaseModel):
     ticker: str
     name: str
-    type: Optional[InstrumentType] = None
+    type: Optional[str] = None
     currency_code: Optional[str] = None
     isin: Optional[str] = None
     short_name: Optional[str] = None
@@ -407,7 +398,7 @@ class EnqueuedReport(T212BaseModel):
 
 class Report(T212BaseModel):
     report_id: Optional[int] = None
-    status: Optional[ReportStatus] = None
+    status: Optional[str] = None
     download_link: Optional[str] = None
     data_included: Optional[ReportDataIncluded] = None
     time_from: Optional[datetime] = None
