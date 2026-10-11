@@ -1,11 +1,11 @@
 from mcp.types import ToolAnnotations
-from trading212_mcp_server.app import mcp, client
+from trading212_mcp_server.app import client, tool
 from trading212_mcp_server.models import Account, Cash, Position
 
 _READ = ToolAnnotations(readOnlyHint=True, destructiveHint=False, idempotentHint=True)
 
 
-@mcp.tool("fetch_account_info", annotations=_READ)
+@tool("fetch_account_info", annotations=_READ)
 def fetch_account_info() -> Account:
     """
     Retrieve account metadata such as the account currency and unique identifier.
@@ -19,7 +19,7 @@ def fetch_account_info() -> Account:
     return client.fetch_account()
 
 
-@mcp.tool("fetch_account_cash", annotations=_READ)
+@tool("fetch_account_cash", annotations=_READ)
 def fetch_account_cash() -> Cash:
     """
     Get a detailed breakdown of the account balance including available cash,
@@ -35,7 +35,7 @@ def fetch_account_cash() -> Cash:
     return client.fetch_cash()
 
 
-@mcp.tool("fetch_all_open_positions", annotations=_READ)
+@tool("fetch_all_open_positions", annotations=_READ)
 def fetch_all_open_positions() -> list[Position]:
     """
     Retrieve every open position in the portfolio with live prices, quantities,
@@ -54,7 +54,7 @@ def fetch_all_open_positions() -> list[Position]:
     return client.fetch_positions()
 
 
-@mcp.tool("search_specific_position_by_ticker", annotations=_READ)
+@tool("search_specific_position_by_ticker", annotations=_READ)
 def search_position_by_ticker(ticker: str) -> Position:
     """
     Look up a single open position by its exact ticker symbol.

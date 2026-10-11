@@ -1,7 +1,7 @@
 [project]
 name = "trading212-mcp-server"
-version = "0.4.0"
-description = "MCP server for Trading 212 - 32 tools for portfolio management, trading, pies, dividends, and analytics. Works with Claude, ChatGPT, Cursor, and any MCP client."
+version = "0.5.0"
+description = "MCP server for Trading 212 - 28 tools for portfolio management, trading, pies, dividends, and analytics. Works with Claude, ChatGPT, Cursor, and any MCP client."
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.11"
@@ -15,6 +15,9 @@ classifiers = [
     "Development Status :: 4 - Beta",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Office/Business :: Financial :: Investment",
     "Intended Audience :: Developers",
 ]
@@ -28,12 +31,13 @@ dependencies = [
 [dependency-groups]
 dev = [
     "pytest>=8.0",
+    "ruff>=0.6",
 ]
 
 [project.urls]
-Homepage = "https://github.com/KyuRish/trading212-mcp-server"
-Repository = "https://github.com/KyuRish/trading212-mcp-server"
-"Bug Tracker" = "https://github.com/KyuRish/trading212-mcp-server/issues"
+Homepage = "https://github.com/nunoarmada/trading212-mcp"
+Repository = "https://github.com/nunoarmada/trading212-mcp"
+"Bug Tracker" = "https://github.com/nunoarmada/trading212-mcp/issues"
 
 [project.scripts]
 trading212-mcp-server = "trading212_mcp_server.server:main"
@@ -44,3 +48,15 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/trading212_mcp_server"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "B"]
+ignore = ["B008"]
+
+[tool.ruff.lint.per-file-ignores]
+# Tool modules are star-imported only to register their tools.
+"src/trading212_mcp_server/tools/__init__.py" = ["F403"]

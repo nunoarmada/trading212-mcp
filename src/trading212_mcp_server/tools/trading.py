@@ -1,5 +1,5 @@
 from mcp.types import ToolAnnotations
-from trading212_mcp_server.app import mcp, client
+from trading212_mcp_server.app import client, tool
 from trading212_mcp_server.models import (
     Order, LimitOrderRequest, MarketOrderRequest, StopOrderRequest,
     StopLimitOrderRequest, TimeValidity,
@@ -10,7 +10,7 @@ _WRITE = ToolAnnotations(readOnlyHint=False, destructiveHint=False, idempotentHi
 _DESTRUCTIVE = ToolAnnotations(readOnlyHint=False, destructiveHint=True, idempotentHint=True)
 
 
-@mcp.tool("fetch_all_orders", annotations=_READ)
+@tool("fetch_all_orders", annotations=_READ)
 def fetch_orders() -> list[Order]:
     """
     List all active pending orders (limit, stop, stop-limit) waiting to be filled.
@@ -25,7 +25,7 @@ def fetch_orders() -> list[Order]:
     return client.fetch_orders()
 
 
-@mcp.tool("fetch_order", annotations=_READ)
+@tool("fetch_order", annotations=_READ)
 def fetch_order_by_id(order_id: int) -> Order:
     """
     Retrieve a single pending order by its ID to check its current status,
@@ -44,7 +44,7 @@ def fetch_order_by_id(order_id: int) -> Order:
     return client.fetch_order(order_id)
 
 
-@mcp.tool("place_market_order", annotations=_WRITE)
+@tool("place_market_order", annotations=_WRITE)
 def place_market_order(ticker: str, quantity: float) -> Order:
     """
     Execute a market order at the current price. This creates a real trade that
@@ -67,7 +67,7 @@ def place_market_order(ticker: str, quantity: float) -> Order:
     return client.place_market_order(req)
 
 
-@mcp.tool("place_limit_order", annotations=_WRITE)
+@tool("place_limit_order", annotations=_WRITE)
 def place_limit_order(
     ticker: str,
     quantity: float,
@@ -99,7 +99,7 @@ def place_limit_order(
     return client.place_limit_order(req)
 
 
-@mcp.tool("place_stop_order", annotations=_WRITE)
+@tool("place_stop_order", annotations=_WRITE)
 def place_stop_order(
     ticker: str,
     quantity: float,
@@ -131,7 +131,7 @@ def place_stop_order(
     return client.place_stop_order(req)
 
 
-@mcp.tool("place_stop_limit_order", annotations=_WRITE)
+@tool("place_stop_limit_order", annotations=_WRITE)
 def place_stop_limit_order(
     ticker: str,
     quantity: float,
@@ -167,7 +167,7 @@ def place_stop_limit_order(
     return client.place_stop_limit_order(req)
 
 
-@mcp.tool("cancel_order", annotations=_DESTRUCTIVE)
+@tool("cancel_order", annotations=_DESTRUCTIVE)
 def cancel_order_by_id(order_id: int) -> None:
     """
     Cancel a pending order and remove it from the order book. This is irreversible -

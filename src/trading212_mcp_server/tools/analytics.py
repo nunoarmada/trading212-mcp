@@ -1,203 +1,319 @@
-from datetime import datetime
+import logging
+from typing import Optional
+
 from mcp.types import ToolAnnotations
-from trading212_mcp_server.app import mcp, client
+from trading212_mcp_server.api.client import T212Error
+from trading212_mcp_server.app import client, tool
+from trading212_mcp_server.models import Position
+
+log = logging.getLogger("trading212")
 
 _READ = ToolAnnotations(readOnlyHint=True, destructiveHint=False, idempotentHint=True)
 
+# Upper bound for full-history aggregation, so one call cannot page forever.
+_MAX_DIVIDENDS = 2000
 
-@mcp.tool("fetch_portfolio_summary", annotations=_READ)
+# Minor-unit currencies T212 quotes some instruments in (e.g. LSE stocks in pence).
+_MINOR_UNITS = {"GBX": ("GBP", 0.01)}
+
+
+def _to_account_currency(amount: Optional[float], instrument_ccy: Optional[str],
+                         account_ccy: str) -> Optional[float]:
+    """Convert an instrument-currency amount to the account currency when the
+    conversion is exact (same currency, or a minor unit of it). Returns None when
+    an FX rate would be needed: the API does not expose one."""
+    if amount is None or not instrument_ccy:
+        return None
+    if instrument_ccy == account_ccy:
+        return amount
+    major, factor = _MINOR_UNITS.get(instrument_ccy, (None, None))
+    if major == account_ccy:
+        return amount * factor
+    return None
+
+
+def _instrument_currencies(notes: list[str]) -> dict[str, str]:
+    """Map ticker -> instrument currency from the (cached) instrument list."""
+    try:
+        instruments = client.fetch_instruments()
+    except T212Error as e:
+        log.warning("Could not load instrument currencies: %s", e)
+        notes.append(f"Instrument currencies unavailable ({e}); "
+                     "account-currency values were not computed.")
+        return {}
+    return {inst.ticker: inst.currency_code for inst in instruments if inst.currency_code}
+
+
+def _position_values(pos: Position, instrument_ccy: Optional[str], account_ccy: str) -> dict:
+    """Values for one position, each labelled with the currency it is in.
+
+    T212 reports averagePrice/currentPrice in the instrument currency and
+    ppl/fxPpl in the account currency, so they must not be mixed."""
+    qty = pos.quantity or 0
+    cost = (pos.average_price or 0) * qty
+    value = (pos.current_price or 0) * qty
+    price_return_pct = (
+        round((pos.current_price - pos.average_price) / pos.average_price * 100, 2)
+        if pos.average_price else None
+    )
+    cost_acct = _to_account_currency(cost, instrument_ccy, account_ccy)
+    value_acct = _to_account_currency(value, instrument_ccy, account_ccy)
+    return {
+        "instrument_currency": instrument_ccy,
+        "cost_instrument_ccy": round(cost, 2),
+        "value_instrument_ccy": round(value, 2),
+        "cost": round(cost_acct, 2) if cost_acct is not None else None,
+        "current_value": round(value_acct, 2) if value_acct is not None else None,
+        "price_return_pct": price_return_pct,
+    }
+
+
+def _finish(result: dict, notes: list[str]) -> dict:
+    waited = client.drain_wait_time()
+    if waited:
+        notes.append(f"Response delayed {waited}s due to Trading 212 rate limits.")
+    if notes:
+        result["_notes"] = notes
+    return result
+
+
+def _value_sort_key(item: dict):
+    # Positions with a known account-currency value first, largest first.
+    value = item.get("current_value")
+    return (value is None, -(value or 0))
+
+
+def _currency_notes(rows: list[dict], account_ccy: str, notes: list[str]) -> None:
+    unknown = [r["ticker"] for r in rows if r["instrument_currency"] is None]
+    needs_fx = sum(1 for r in rows
+                   if r["instrument_currency"] is not None and r["current_value"] is None)
+    if unknown:
+        notes.append(f"Instrument currency unknown for {', '.join(unknown)}; "
+                     "their account-currency values are null.")
+    if needs_fx:
+        notes.append(_FX_NOTE.format(n=needs_fx, ccy=account_ccy))
+
+
+_FX_NOTE = (
+    "{n} position(s) are priced in a currency other than {ccy}. Their cost, "
+    "current_value and return percentage are null because the API exposes no FX rate; "
+    "profit_loss (already in {ccy}) and price_return_pct (currency-neutral) are still valid."
+)
+
+
+@tool("fetch_portfolio_summary", annotations=_READ)
 def fetch_portfolio_summary() -> dict:
     """
     Produce a complete portfolio snapshot in one call by combining account info,
     cash balance, and all open positions into a single aggregated response.
 
-    This is the recommended starting point for portfolio analysis. It calculates
-    total value, P/L percentages, and ranks holdings by current value. For
-    per-position performance with dividends, use fetch_portfolio_performance instead.
+    This is the recommended starting point for portfolio analysis. Portfolio totals
+    come from the account balance and are in the account currency. Per position,
+    profit_loss is in the account currency; prices are in the instrument currency;
+    current_value and profit_loss_pct are in the account currency and are null when
+    an FX conversion would be needed. For per-position performance with dividends,
+    use fetch_portfolio_performance instead.
 
     Returns:
         dict with currency, total_value, cash_available, invested, profit_loss,
-        profit_loss_pct, position_count, positions (sorted by value descending),
-        and top_holdings (top 5)
+        profit_loss_pct, position_count, positions (sorted by account-currency value,
+        each with instrument_currency, value_instrument_ccy, current_value, profit_loss,
+        profit_loss_pct, price_return_pct), top_holdings (top 5) and _notes
     """
+    notes: list[str] = []
     account = client.fetch_account()
     cash = client.fetch_cash()
     positions = client.fetch_positions()
+    account_ccy = account.currency_code
+    currencies = _instrument_currencies(notes) if positions else {}
 
     holdings = []
     for pos in positions:
-        current_value = (pos.current_price or 0) * (pos.quantity or 0)
+        values = _position_values(pos, currencies.get(pos.ticker), account_ccy)
+        ppl = pos.ppl or 0
+        cost = values["cost"]
         holdings.append({
             "ticker": pos.ticker,
             "quantity": pos.quantity,
             "average_price": pos.average_price,
             "current_price": pos.current_price,
-            "current_value": round(current_value, 2),
-            "profit_loss": round(pos.ppl or 0, 2),
-            "profit_loss_pct": round(
-                ((pos.ppl or 0) / ((pos.average_price or 1) * (pos.quantity or 1))) * 100, 2
-            ) if pos.average_price and pos.quantity else 0,
+            **values,
+            "profit_loss": round(ppl, 2),
+            "fx_profit_loss": pos.fx_ppl,
+            "profit_loss_pct": round(ppl / cost * 100, 2) if cost else None,
         })
 
-    holdings.sort(key=lambda h: h["current_value"], reverse=True)
+    holdings.sort(key=_value_sort_key)
+    if currencies:
+        _currency_notes(holdings, account_ccy, notes)
 
     total = cash.total or 0
     invested = cash.invested or 0
     ppl = cash.ppl or 0
 
     result = {
-        "currency": account.currency_code,
+        "currency": account_ccy,
         "total_value": round(total, 2),
         "cash_available": round(cash.free or 0, 2),
         "invested": round(invested, 2),
         "profit_loss": round(ppl, 2),
-        "profit_loss_pct": round((ppl / invested) * 100, 2) if invested else 0,
+        "profit_loss_pct": round((ppl / invested) * 100, 2) if invested else None,
         "position_count": len(positions),
         "positions": holdings,
-        "top_holdings": holdings[:5],
+        "top_holdings": [h for h in holdings if h["current_value"] is not None][:5],
     }
-    waited = client.drain_wait_time()
-    if waited:
-        result["_note"] = f"Response delayed {waited}s due to Trading 212 rate limits."
-    return result
+    return _finish(result, notes)
 
 
-@mcp.tool("fetch_portfolio_performance", annotations=_READ)
+@tool("fetch_portfolio_performance", annotations=_READ)
 def fetch_portfolio_performance() -> dict:
     """
     Build a detailed performance report across all positions by combining
-    current holdings, recent order history, and dividend payouts.
+    current holdings, the full dividend history, and recent order history.
 
-    Calculates per-position total returns (price P/L + dividends) and identifies
-    best and worst performers. Use this for deeper analysis than fetch_portfolio_summary
-    provides, especially when dividend income matters.
+    Calculates per-position total returns (price P/L + dividends received, both in
+    the account currency) and identifies best and worst performers. Use this for
+    deeper analysis than fetch_portfolio_summary, especially when dividend income
+    matters. return_pct is null for positions priced in another currency (no FX
+    rate is available); price_return_pct is always present.
 
     Returns:
         dict with currency, total_price_ppl, total_dividends, total_return,
-        best_performer, worst_performer, positions (each with invested, current_value,
-        price_ppl, dividends, total_return, return_pct, held_since), recent_filled_orders
+        best_performer, worst_performer (ranked by return_pct when known for every
+        position, else by price_return_pct; see ranked_by), positions (each with cost,
+        current_value, price_ppl, dividends, total_return, return_pct, price_return_pct,
+        held_since), ranked_by,
+        recent_filled_orders, dividends_truncated and _notes
     """
+    notes: list[str] = []
     account = client.fetch_account()
+    account_ccy = account.currency_code
     positions = client.fetch_positions()
-    orders = client.fetch_order_history(limit=50)
-    dividends = client.fetch_dividends(limit=50)
+    orders = client.fetch_order_history(limit=50).items
+    dividends, truncated = client.fetch_all_pages(
+        lambda cursor: client.fetch_dividends(cursor=cursor, limit=50),
+        max_items=_MAX_DIVIDENDS,
+    )
+    if truncated:
+        notes.append(f"Dividend history truncated to the latest {_MAX_DIVIDENDS} payments.")
+    currencies = _instrument_currencies(notes) if positions else {}
 
-    # Aggregate dividends per ticker
-    div_by_ticker = {}
-    for item in dividends.items:
-        t = item.ticker or "unknown"
-        div_by_ticker[t] = div_by_ticker.get(t, 0) + (item.amount or 0)
+    div_by_ticker: dict[str, float] = {}
+    for item in dividends:
+        div_by_ticker[item.ticker] = div_by_ticker.get(item.ticker, 0) + (item.amount or 0)
 
-    total_dividends = sum(div_by_ticker.values())
-
-    # Per-position performance
     perf = []
     for pos in positions:
-        ticker = pos.ticker or ""
-        invested = (pos.average_price or 0) * (pos.quantity or 0)
-        current = (pos.current_price or 0) * (pos.quantity or 0)
+        values = _position_values(pos, currencies.get(pos.ticker), account_ccy)
         ppl = pos.ppl or 0
-        divs = round(div_by_ticker.get(ticker, 0), 2)
-        total_return = round(ppl + divs, 2)
-
+        divs = div_by_ticker.get(pos.ticker, 0)
+        total_return = ppl + divs
+        cost = values["cost"]
         perf.append({
-            "ticker": ticker,
+            "ticker": pos.ticker,
             "quantity": pos.quantity,
-            "invested": round(invested, 2),
-            "current_value": round(current, 2),
+            **values,
             "price_ppl": round(ppl, 2),
-            "dividends": divs,
-            "total_return": total_return,
-            "return_pct": round((total_return / invested) * 100, 2) if invested else 0,
+            "dividends": round(divs, 2),
+            "total_return": round(total_return, 2),
+            "return_pct": round(total_return / cost * 100, 2) if cost else None,
             "held_since": pos.initial_fill_date.isoformat() if pos.initial_fill_date else None,
         })
 
-    perf.sort(key=lambda p: p["total_return"], reverse=True)
+    # Rank on total return % (incl. dividends) only if it is known for every position;
+    # otherwise rank everything on the currency-neutral price return, never a mix.
+    rank_field = ("return_pct" if perf and all(p["return_pct"] is not None for p in perf)
+                  else "price_return_pct")
 
-    # Recent filled orders
+    def rank(p):
+        return p[rank_field] if p[rank_field] is not None else float("-inf")
+
+    perf.sort(key=rank, reverse=True)
+    if currencies:
+        _currency_notes(perf, account_ccy, notes)
+
     filled = [
         {
             "ticker": o.ticker,
             "type": o.type,
+            "side": o.side,
             "quantity": o.filled_quantity,
             "fill_price": o.fill_price,
+            "net_value": o.wallet_net_value,
+            "net_value_currency": o.wallet_currency,
             "date": o.date_executed.isoformat() if o.date_executed else None,
             "status": o.status,
         }
         for o in orders if o.status == "FILLED"
     ][:20]
 
+    total_price_ppl = sum(pos.ppl or 0 for pos in positions)
+    total_dividends = sum(div_by_ticker.values())
     result = {
-        "currency": account.currency_code,
-        "total_price_ppl": round(sum(p["price_ppl"] for p in perf), 2),
+        "currency": account_ccy,
+        "total_price_ppl": round(total_price_ppl, 2),
+        # All dividends ever received, including from positions since closed.
         "total_dividends": round(total_dividends, 2),
-        "total_return": round(sum(p["total_return"] for p in perf), 2),
+        "total_return": round(total_price_ppl + total_dividends, 2),
         "best_performer": perf[0] if perf else None,
         "worst_performer": perf[-1] if perf else None,
         "positions": perf,
         "recent_filled_orders": filled,
+        "ranked_by": rank_field,
+        "dividends_truncated": truncated,
     }
-    waited = client.drain_wait_time()
-    if waited:
-        result["_note"] = f"Response delayed {waited}s due to Trading 212 rate limits."
-    return result
+    return _finish(result, notes)
 
 
-@mcp.tool("fetch_dividend_summary", annotations=_READ)
+def _month_index(key: str) -> int:
+    year, month = key.split("-")
+    return int(year) * 12 + int(month) - 1
+
+
+@tool("fetch_dividend_summary", annotations=_READ)
 def fetch_dividend_summary() -> dict:
     """
-    Analyse dividend income history by collecting up to 200 dividend records
-    and breaking them down by ticker and by calendar month.
+    Analyse the full dividend income history, broken down by ticker and by
+    calendar month. Amounts are in the account currency.
 
     Use this to identify which holdings generate the most income and to spot
     monthly income trends. For raw dividend records with pagination control,
     use fetch_paid_out_dividends instead.
 
     Returns:
-        dict with currency, total_dividends, dividend_count, average_monthly,
-        by_ticker (sorted highest-paying first), by_month (chronological)
+        dict with currency, total_dividends, dividend_count, average_monthly (over every
+        month from the first to the last payment, including months with no income),
+        by_ticker (sorted highest-paying first), by_month (chronological), truncated
     """
+    notes: list[str] = []
     account = client.fetch_account()
+    all_divs, truncated = client.fetch_all_pages(
+        lambda cursor: client.fetch_dividends(cursor=cursor, limit=50),
+        max_items=_MAX_DIVIDENDS,
+    )
+    if truncated:
+        notes.append(f"Dividend history truncated to the latest {_MAX_DIVIDENDS} payments.")
 
-    # Collect up to 200 dividends across 4 pages
-    all_divs = []
-    cursor = None
-    for _ in range(4):
-        page = client.fetch_dividends(cursor=cursor, limit=50)
-        all_divs.extend(page.items)
-        if not page.next_page_path:
-            break
-        # Pull cursor value from the next page URL
-        try:
-            cursor = int(page.next_page_path.split("cursor=")[1].split("&")[0])
-        except (IndexError, ValueError):
-            break
-
-    # Totals per ticker
-    by_ticker = {}
+    by_ticker: dict[str, float] = {}
+    by_month: dict[str, float] = {}
     for d in all_divs:
-        t = d.ticker or "unknown"
-        by_ticker[t] = by_ticker.get(t, 0) + (d.amount or 0)
+        by_ticker[d.ticker] = by_ticker.get(d.ticker, 0) + (d.amount or 0)
+        if d.paid_on:
+            key = d.paid_on.strftime("%Y-%m")
+            by_month[key] = by_month.get(key, 0) + (d.amount or 0)
 
     ticker_list = [
         {"ticker": t, "total": round(v, 2)}
         for t, v in sorted(by_ticker.items(), key=lambda x: x[1], reverse=True)
     ]
-
-    # Totals per month
-    by_month = {}
-    for d in all_divs:
-        if d.paid_on:
-            key = d.paid_on.strftime("%Y-%m")
-            by_month[key] = by_month.get(key, 0) + (d.amount or 0)
-
-    month_list = [
-        {"month": m, "total": round(v, 2)}
-        for m, v in sorted(by_month.items())
-    ]
+    month_list = [{"month": m, "total": round(v, 2)} for m, v in sorted(by_month.items())]
 
     total = sum(d.amount or 0 for d in all_divs)
-    months_span = len(by_month) or 1
+    if by_month:
+        months = sorted(by_month)
+        months_span = _month_index(months[-1]) - _month_index(months[0]) + 1
+    else:
+        months_span = 1
 
     result = {
         "currency": account.currency_code,
@@ -206,14 +322,12 @@ def fetch_dividend_summary() -> dict:
         "average_monthly": round(total / months_span, 2),
         "by_ticker": ticker_list,
         "by_month": month_list,
+        "truncated": truncated,
     }
-    waited = client.drain_wait_time()
-    if waited:
-        result["_note"] = f"Response delayed {waited}s due to Trading 212 rate limits."
-    return result
+    return _finish(result, notes)
 
 
-@mcp.tool("fetch_recent_activity", annotations=_READ)
+@tool("fetch_recent_activity", annotations=_READ)
 def fetch_recent_activity(limit: int = 20) -> dict:
     """
     Get a unified timeline of recent trades and account movements by merging
@@ -232,27 +346,29 @@ def fetch_recent_activity(limit: int = 20) -> dict:
         dict with currency, activity (sorted newest-first, each tagged as 'order' or
         'transaction'), order_count, transaction_count
     """
+    notes: list[str] = []
+    limit = min(max(limit, 1), 50)
     account = client.fetch_account()
-    orders = client.fetch_order_history(limit=min(limit, 50))
-    txns = client.fetch_transactions(limit=min(limit, 50))
+    orders = client.fetch_order_history(limit=limit).items
+    txns = client.fetch_transactions(limit=limit).items
 
     activity = []
-
     for o in orders:
+        date = o.date_executed or o.date_created
         activity.append({
             "type": "order",
-            "date": o.date_executed.isoformat() if o.date_executed else (
-                o.date_created.isoformat() if o.date_created else None
-            ),
+            "date": date.isoformat() if date else None,
             "ticker": o.ticker,
             "order_type": o.type,
+            "side": o.side,
             "status": o.status,
             "quantity": o.filled_quantity or o.ordered_quantity,
             "fill_price": o.fill_price,
             "value": o.filled_value or o.ordered_value,
+            "currency": o.currency,
         })
 
-    for t in txns.items:
+    for t in txns:
         activity.append({
             "type": "transaction",
             "date": t.date_time.isoformat() if t.date_time else None,
@@ -267,9 +383,6 @@ def fetch_recent_activity(limit: int = 20) -> dict:
         "currency": account.currency_code,
         "activity": activity,
         "order_count": len(orders),
-        "transaction_count": len(txns.items),
+        "transaction_count": len(txns),
     }
-    waited = client.drain_wait_time()
-    if waited:
-        result["_note"] = f"Response delayed {waited}s due to Trading 212 rate limits."
-    return result
+    return _finish(result, notes)

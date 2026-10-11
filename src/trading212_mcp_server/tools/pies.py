@@ -2,7 +2,7 @@ from typing import Optional
 from datetime import datetime
 
 from mcp.types import ToolAnnotations
-from trading212_mcp_server.app import mcp, client
+from trading212_mcp_server.app import client, tool
 from trading212_mcp_server.models import (
     PieSummary, PieDetails, DividendCashAction,
     PieRequest, DuplicatePieRequest,
@@ -13,7 +13,7 @@ _WRITE = ToolAnnotations(readOnlyHint=False, destructiveHint=False, idempotentHi
 _DESTRUCTIVE = ToolAnnotations(readOnlyHint=False, destructiveHint=True, idempotentHint=True)
 
 
-@mcp.tool("fetch_pies", annotations=_READ)
+@tool("fetch_pies", annotations=_READ)
 def fetch_pies() -> list[PieSummary]:
     """
     List all investment pies with their cash balances, dividend details,
@@ -28,7 +28,7 @@ def fetch_pies() -> list[PieSummary]:
     return client.fetch_pies()
 
 
-@mcp.tool("fetch_a_pie", annotations=_READ)
+@tool("fetch_a_pie", annotations=_READ)
 def fetch_a_pie(pie_id: int) -> PieDetails:
     """
     Get full details for a single pie including every instrument allocation,
@@ -47,7 +47,7 @@ def fetch_a_pie(pie_id: int) -> PieDetails:
     return client.fetch_pie(pie_id)
 
 
-@mcp.tool("create_pie", annotations=_WRITE)
+@tool("create_pie", annotations=_WRITE)
 def create_pie(
     name: str,
     instrument_shares: dict[str, float],
@@ -85,7 +85,7 @@ def create_pie(
     return client.create_pie(pie_data)
 
 
-@mcp.tool("update_pie", annotations=_WRITE)
+@tool("update_pie", annotations=_WRITE)
 def update_pie(
     pie_id: int,
     name: str = None,
@@ -123,7 +123,7 @@ def update_pie(
     return client.update_pie(pie_id, pie_data)
 
 
-@mcp.tool("duplicate_pie", annotations=_WRITE)
+@tool("duplicate_pie", annotations=_WRITE)
 def duplicate_pie(
     pie_id: int, name: Optional[str] = None, icon: Optional[str] = None
 ) -> PieDetails:
@@ -146,7 +146,7 @@ def duplicate_pie(
     return client.duplicate_pie(pie_id, req)
 
 
-@mcp.tool("delete_pie", annotations=_DESTRUCTIVE)
+@tool("delete_pie", annotations=_DESTRUCTIVE)
 def delete_pie(pie_id: int):
     """
     Permanently delete a pie. This is irreversible. Instruments inside the pie

@@ -1,7 +1,7 @@
 from mcp.types import ToolAnnotations
-from trading212_mcp_server.app import mcp, client
+from trading212_mcp_server.app import client, tool
 from trading212_mcp_server.models import (
-    HistoricalOrder, PaginatedDividends, PaginatedTransactions,
+    PaginatedHistoricalOrders, PaginatedDividends, PaginatedTransactions,
     Report, EnqueuedReport, ReportDataIncluded,
 )
 
@@ -9,10 +9,10 @@ _READ = ToolAnnotations(readOnlyHint=True, destructiveHint=False, idempotentHint
 _WRITE = ToolAnnotations(readOnlyHint=False, destructiveHint=False, idempotentHint=False)
 
 
-@mcp.tool("fetch_historical_order_data", annotations=_READ)
+@tool("fetch_historical_order_data", annotations=_READ)
 def fetch_historical_order_data(
-    cursor: int = None, ticker: str = None, limit: int = 20
-) -> list[HistoricalOrder]:
+    cursor: str | None = None, ticker: str | None = None, limit: int = 20
+) -> PaginatedHistoricalOrders:
     """
     Retrieve past orders (filled, cancelled, rejected) with execution details,
     fill prices, and timestamps. Supports pagination and ticker filtering.
@@ -21,20 +21,21 @@ def fetch_historical_order_data(
     For currently active orders, use fetch_all_orders instead.
 
     Args:
-        cursor: Pagination cursor from a previous response. Omit for the first page.
+        cursor: The nextCursor value from a previous response. Omit for the first page.
         ticker: Filter results to a specific instrument (e.g., 'AAPL_US_EQ'). Omit for all.
         limit: Number of orders per page, 1-50. Defaults to 20.
 
     Returns:
-        List of HistoricalOrder with ticker, type, status, filledQuantity, fillPrice,
-        dateCreated, dateExecuted, and more
+        PaginatedHistoricalOrders with items (ticker, type, side, status, filledQuantity,
+        fillPrice in the instrument currency, walletNetValue in the account currency,
+        dateCreated, dateExecuted, ...) and nextCursor (null on the last page)
     """
     return client.fetch_order_history(cursor=cursor, ticker=ticker, limit=limit)
 
 
-@mcp.tool("fetch_paid_out_dividends", annotations=_READ)
+@tool("fetch_paid_out_dividends", annotations=_READ)
 def fetch_paid_out_dividends(
-    cursor: int = None, ticker: str = None, limit: int = 20
+    cursor: str | None = None, ticker: str | None = None, limit: int = 20
 ) -> PaginatedDividends:
     """
     Retrieve dividend payments received, including per-share amounts, payment dates,
@@ -44,17 +45,18 @@ def fetch_paid_out_dividends(
     grouped by ticker and month, use fetch_dividend_summary instead.
 
     Args:
-        cursor: Pagination cursor from a previous response. Omit for the first page.
+        cursor: The nextCursor value from a previous response. Omit for the first page.
         ticker: Filter to a specific instrument (e.g., 'AAPL_US_EQ'). Omit for all.
         limit: Number of records per page, 1-50. Defaults to 20.
 
     Returns:
-        PaginatedDividends with items (ticker, amount, paidOn, quantity) and nextPagePath
+        PaginatedDividends with items (ticker, amount, paidOn, quantity) and nextCursor
+        (null on the last page)
     """
     return client.fetch_dividends(cursor=cursor, ticker=ticker, limit=limit)
 
 
-@mcp.tool("fetch_exports_list", annotations=_READ)
+@tool("fetch_exports_list", annotations=_READ)
 def fetch_exports_list() -> list[Report]:
     """
     List all previously generated CSV account exports with their status and
@@ -69,14 +71,14 @@ def fetch_exports_list() -> list[Report]:
     return client.fetch_reports()
 
 
-@mcp.tool("request_csv_export", annotations=_WRITE)
+@tool("request_csv_export", annotations=_WRITE)
 def request_csv_export(
     include_dividends: bool = True,
     include_interest: bool = True,
     include_orders: bool = True,
     include_transactions: bool = True,
-    time_from: str = None,
-    time_to: str = None,
+    time_from: str | None = None,
+    time_to: str | None = None,
 ) -> EnqueuedReport:
     """
     Queue a CSV export of your account history. The export runs asynchronously -
@@ -109,7 +111,7 @@ def request_csv_export(
     )
 
 
-@mcp.tool("fetch_transaction_list", annotations=_READ)
+@tool("fetch_transaction_list", annotations=_READ)
 def fetch_transaction_list(
     cursor: str | None = None, time: str | None = None, limit: int = 20
 ) -> PaginatedTransactions:
@@ -121,12 +123,13 @@ def fetch_transaction_list(
     For a combined view of orders and transactions together, use fetch_recent_activity.
 
     Args:
-        cursor: Pagination cursor from a previous response. Omit for the first page.
+        cursor: The nextCursor value from a previous response. Omit for the first page.
         time: Filter transactions from this ISO 8601 timestamp onward
             (e.g., '2024-06-01T00:00:00Z'). Omit for all.
         limit: Number of records per page, 1-50. Defaults to 20.
 
     Returns:
-        PaginatedTransactions with items (type, dateTime, amount, reference) and nextPagePath
+        PaginatedTransactions with items (type, dateTime, amount, reference) and nextCursor
+        (null on the last page)
     """
     return client.fetch_transactions(cursor=cursor, time=time, limit=limit)
