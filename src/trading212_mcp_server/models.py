@@ -203,7 +203,9 @@ class HistoricalOrder(T212BaseModel):
     ticker: str
     type: Optional[str] = None
     status: Optional[str] = None
+    side: Optional[str] = None
     executor: Optional[str] = None
+    currency: Optional[str] = None
     filled_quantity: Optional[float] = None
     filled_value: Optional[float] = None
     fill_price: Optional[float] = None
@@ -217,6 +219,10 @@ class HistoricalOrder(T212BaseModel):
     ordered_value: Optional[float] = None
     parent_order: Optional[int] = None
     time_validity: Optional[str] = None
+    # Fill value in the account currency, as booked against the wallet.
+    wallet_currency: Optional[str] = None
+    wallet_net_value: Optional[float] = None
+    wallet_fx_rate: Optional[float] = None
     taxes: Optional[list[Tax]] = None
     date_created: Optional[datetime] = None
     date_executed: Optional[datetime] = None
@@ -246,11 +252,22 @@ class TransactionItem(T212BaseModel):
 class PaginatedDividends(T212BaseModel):
     items: list[DividendItem]
     next_page_path: Optional[str] = None
+    # Pass this as `cursor` to fetch the next page; None on the last page.
+    next_cursor: Optional[str] = None
 
 
 class PaginatedTransactions(T212BaseModel):
     items: list[TransactionItem]
     next_page_path: Optional[str] = None
+    # Pass this as `cursor` to fetch the next page; None on the last page.
+    next_cursor: Optional[str] = None
+
+
+class PaginatedHistoricalOrders(T212BaseModel):
+    items: list[HistoricalOrder]
+    next_page_path: Optional[str] = None
+    # Pass this as `cursor` to fetch the next page; None on the last page.
+    next_cursor: Optional[str] = None
 
 
 # Pies

@@ -10,7 +10,7 @@ from pathlib import Path
 import pytest
 
 from trading212_mcp_server.models import (
-    Account, Cash, Position, Order, HistoricalOrder,
+    Account, Cash, Position, Order,
     PaginatedDividends, PaginatedTransactions,
     PieSummary, Exchange, Report, Instrument,
 )
@@ -44,36 +44,11 @@ def test_orders_shape():
 
 
 def test_order_history_shape():
-    from trading212_mcp_server.api.client import T212Client  # noqa: F401
-    # The client flattens nested order/fill/walletImpact into HistoricalOrder.
-    # Reproduce that flatten here so the fixture (raw T212 shape) still validates.
+    from trading212_mcp_server.api.client import T212Client
     raw = _load("order_history")
     items = raw["items"] if isinstance(raw, dict) else raw
     for item in items:
-        order = item.get("order", {})
-        fill = item.get("fill", {})
-        wallet = fill.get("walletImpact", {})
-        flat = {
-            "id": order.get("id"),
-            "ticker": order.get("ticker"),
-            "type": order.get("type"),
-            "status": order.get("status"),
-            "executor": order.get("initiatedFrom"),
-            "filledValue": order.get("filledValue"),
-            "orderedValue": order.get("value"),
-            "dateCreated": order.get("createdAt"),
-            "limitPrice": order.get("limitPrice"),
-            "stopPrice": order.get("stopPrice"),
-            "timeValidity": order.get("timeValidity"),
-            "parentOrder": order.get("parentOrder"),
-            "filledQuantity": fill.get("quantity"),
-            "fillPrice": fill.get("price"),
-            "fillId": fill.get("id"),
-            "fillType": fill.get("type"),
-            "dateExecuted": fill.get("filledAt"),
-            "taxes": wallet.get("taxes"),
-        }
-        HistoricalOrder.model_validate(flat)
+        T212Client._flatten_historical_order(item)
 
 
 def test_dividends_shape():

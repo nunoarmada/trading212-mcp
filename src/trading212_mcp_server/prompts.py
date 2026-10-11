@@ -1,5 +1,10 @@
+import logging
 from textwrap import dedent
+
+from trading212_mcp_server.api.client import T212Error
 from trading212_mcp_server.app import mcp, client
+
+log = logging.getLogger("trading212")
 
 
 @mcp.prompt("analyse_trading212_data")
@@ -8,7 +13,8 @@ def analyse_trading212_data_prompt():
     try:
         account = client.fetch_account()
         currency = account.currency_code
-    except Exception:
+    except T212Error as e:
+        log.warning("Could not fetch account currency for prompt: %s", e)
         currency = "unknown"
 
     return dedent(f"""\
@@ -44,6 +50,13 @@ def analyse_trading212_data_prompt():
           fetch_historical_order_data, etc.) when you need data that the composite
           tools do not cover, such as pending limit orders or specific order IDs.
 
-        Currency note: some instruments on the London Stock Exchange are quoted in
-        GBX (pence sterling). 1 GBP = 100 GBX. Always convert GBX values to GBP
-        before presenting them to the user so the numbers stay consistent.""")
+        Currency notes:
+        - Portfolio totals, profit_loss and dividends are in the account currency.
+        - Per-position prices (average_price, current_price, *_instrument_ccy) are in
+          the instrument currency shown in instrument_currency. Never add them to
+          account-currency figures.
+        - current_value, cost and return percentages are null for positions that
+          would need an FX rate; use price_return_pct for those instead.
+        - Some London Stock Exchange instruments are quoted in GBX (pence sterling).
+          1 GBP = 100 GBX. Convert GBX values to GBP before presenting them.
+        - Paginated tools return nextCursor; pass it back as `cursor` for the next page.""")
