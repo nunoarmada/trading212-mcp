@@ -25,14 +25,19 @@ FROM python:3.11-slim-bookworm
 # Python executable must be the same, e.g., using `python:3.11-slim-bookworm`
 # will fail.
 
+# Run as an unprivileged user
+RUN groupadd --system app && useradd --system --gid app --no-create-home app
+
 # Copy the application from the builder
 COPY --from=builder --chown=app:app /app /app
 
 # Place executables in the environment at the front of the path
 ENV PATH="/app/.venv/bin:$PATH"
 
-# Expose the port that the app runs on
+USER app
+
+# Default transport is stdio (run with `docker run -i`). Set TRANSPORT=sse or
+# TRANSPORT=streamable-http to serve over HTTP on this port instead.
 EXPOSE 8000
 
-# Run the application
 CMD ["trading212-mcp-server"]

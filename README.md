@@ -6,7 +6,7 @@
 [![Glama](https://glama.ai/mcp/servers/KyuRish/trading212-mcp-server/badges/score.svg)](https://glama.ai/mcp/servers/@KyuRish/trading212-mcp-server)
 ![Python](https://img.shields.io/badge/Python-3.11+-blue?logo=python)
 ![MCP](https://img.shields.io/badge/MCP-compatible-purple)
-![Tools](https://img.shields.io/badge/Tools-32-orange)
+![Tools](https://img.shields.io/badge/Tools-28-orange)
 
 <!-- mcp-name: io.github.KyuRish/trading212-mcp-server -->
 
@@ -16,11 +16,11 @@ Works with **Claude Desktop, Claude Code, ChatGPT, Gemini, Cursor, Windsurf**, a
 
 ## Why this server?
 
-- **32 tools** covering the full Trading 212 API, plus 4 analytics tools that combine multiple API calls into actionable insights
-- **Smart rate limiting** - reads T212's rate limit headers, auto-waits, and retries on 429 (up to 3 times). No rate limit errors leak to your AI
+- **28 tools**: 24 covering the full Trading 212 API, plus 4 analytics tools that combine multiple API calls into actionable insights
+- **Smart rate limiting** - reads T212's rate limit headers, auto-waits, and retries on 429 (up to 3 attempts). Instrument and exchange metadata is cached for an hour
 - **Zero config** - install from PyPI, add your API key, done. No Docker, no database, no Redis
 - **Typed responses** - every tool returns structured Pydantic models, not raw JSON
-- **Paper trading** - set `ENVIRONMENT=demo` to test with virtual money first
+- **Paper trading** - set `T212_ENV=demo` to test with virtual money first
 
 ## What can it do?
 
@@ -73,7 +73,7 @@ Add to `claude_desktop_config.json` (Windows: `%APPDATA%\Claude\`, Mac: `~/Libra
       "env": {
         "TRADING212_API_KEY": "<your-api-key>",
         "TRADING212_API_SECRET": "<your-api-secret>",
-        "ENVIRONMENT": "live"
+        "T212_ENV": "live"
       }
     }
   }
@@ -90,13 +90,13 @@ Then set the environment variables in your shell or `.env` file.
 
 ### Other clients (Cursor, Windsurf, ChatGPT, etc.)
 
-Same command and env vars - configure per your client's MCP docs. Set `ENVIRONMENT` to `demo` for paper trading.
+Same command and env vars - configure per your client's MCP docs. Set `T212_ENV` to `demo` for paper trading.
 
 ### From source
 
 ```bash
-git clone https://github.com/KyuRish/trading212-mcp-server.git
-cd trading212-mcp-server
+git clone https://github.com/nunoarmada/trading212-mcp.git
+cd trading212-mcp
 cp .env.example .env  # fill in your API keys
 uv sync
 uv run -m trading212_mcp_server.server
@@ -114,7 +114,7 @@ uv run -m trading212_mcp_server.server
       "env": {
         "TRADING212_API_KEY": "<your-api-key>",
         "TRADING212_API_SECRET": "<your-api-secret>",
-        "ENVIRONMENT": "live"
+        "T212_ENV": "live"
       }
     }
   }
@@ -123,7 +123,7 @@ uv run -m trading212_mcp_server.server
 
 </details>
 
-## All 32 tools
+## All 28 tools
 
 ### Analytics (composite)
 | Tool | Description |
@@ -176,6 +176,45 @@ uv run -m trading212_mcp_server.server
 | `fetch_transaction_list` | Deposits and withdrawals |
 | `fetch_exports_list` | List CSV export reports |
 | `request_csv_export` | Request a new CSV export |
+
+## Configuration
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `TRADING212_API_KEY` | - | API key (required) |
+| `TRADING212_API_SECRET` | - | API secret (required for Basic auth) |
+| `T212_ENV` | `demo` | `demo` (paper trading) or `live`. `ENVIRONMENT` is still accepted |
+| `T212_READ_ONLY` | `false` | `true` disables every tool that places or cancels orders, edits pies or requests exports |
+| `TRANSPORT` | `stdio` | `stdio`, `sse` or `streamable-http` |
+
+Missing credentials or an invalid environment do not stop the server from starting; the first tool call returns a clear error instead.
+
+### Safety
+
+The trading and pie tools act on real money when `T212_ENV=live`. If you only want your assistant to analyse the account, set `T212_READ_ONLY=true`: write tools are then not registered at all, so the model cannot call them. Trading 212 API keys can also be created with read-only permission scopes.
+
+### Currencies
+
+Portfolio totals, `profit_loss` and dividends are in the account currency. Per-position prices are in the instrument currency (shown as `instrument_currency`; LSE stocks are often in GBX). The API exposes no FX rates, so account-currency values and return percentages are only computed when no conversion is needed (same currency, or GBX to GBP) and are `null` otherwise; `price_return_pct` is always available.
+
+### Pagination
+
+`fetch_historical_order_data`, `fetch_paid_out_dividends` and `fetch_transaction_list` return a `nextCursor`. Pass it back as `cursor` to get the next page.
+
+### Docker
+
+```bash
+docker build -t trading212-mcp .
+docker run -i --rm -e TRADING212_API_KEY -e TRADING212_API_SECRET -e T212_ENV=demo trading212-mcp
+```
+
+## Development
+
+```bash
+uv sync
+uv run ruff check .
+uv run pytest
+```
 
 ## Compatibility
 
